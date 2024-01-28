@@ -1,4 +1,3 @@
-// Made by Shalev and Yuval
 #include <math.h>
 #include "NumClass.h"
 #include <stdbool.h>
