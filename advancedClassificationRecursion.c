@@ -1,3 +1,4 @@
+// Maor & Daniel
 #include <math.h>
 #include "NumClass.h"
 #include <stdbool.h>
