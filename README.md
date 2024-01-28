@@ -1,1 +1,1 @@
-# SP_Assignment1
+This is the first assignment in C programing
