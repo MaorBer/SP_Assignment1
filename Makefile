@@ -1,50 +1,43 @@
+.PHONY: all clean loops loopd recursives recursived
+#Defining Macros
 CC = gcc
 AR = ar
-CFLAGS = -g -Wall
-OBJECTS_LOOP_BASIC = basicClassification.o advancedClassificationLoop.o
-OBJECTS_RECURSIVE_BASIC = basicClassification.o advancedClassificationRecursion.o
+FLAGS= -Wall -g
+LOOP = basicClassification.o advancedClassificationLoop.o
+RECURSIVE = basicClassification.o advancedClassificationRecursion.o
 
-all: recursived recursives loopd loops mains maindloop maindrec
+all: mains maindloop maindrec loops loopd recursives recursived
 
-loops: libclassloops.a
-loopd: libclassloops.so
-recursives: libclassrec.a
-recursived: libclassrec.so
-
-maindrec: main.o libclassrec.so
-	$(CC) $(FLAGS) -o maindrec main.o libclassrec.so -lm
-
-maindloop: main.o libclassloops.a
-	$(CC) $(FLAGS) -o maindloop main.o libclassloops.a -lm
-
+#Creating Main Files
 mains: main.o libclassrec.a
-	$(CC) $(FLAGS) -o mains  main.o libclassrec.a -lm
-
-libclassloops.a: $(OBJECTS_LOOP_BASIC)
-	$(AR) -rcs libclassloops.a $(OBJECTS_LOOP_BASIC)
-
-libclassloops.so: $(OBJECTS_LOOP_BASIC)
-	$(CC) -shared $(OBJECTS_LOOP_BASIC) -o libclassloops.so
-
-libclassrec.a: $(OBJECTS_RECURSIVE_BASIC)
-	$(AR) -rcs libclassrec.a $(OBJECTS_RECURSIVE_BASIC)
-
-libclassrec.so: $(OBJECTS_RECURSIVE_BASIC)
-	$(CC) -shared $(OBJECTS_RECURSIVE_BASIC) -o libclassrec.so 
-
+	$(CC) $(FLAGS) -o mains main.o libclassrec.a -lm
+maindloop: main.o libclassloops.so
+	$(CC) $(FLAGS) -o maindloop main.o ./libclassloops.so -lm
+maindrec: main.o libclassrec.so
+	$(CC) $(FLAGS) -o maindrec main.o ./libclassrec.so -lm
+#Creating Static Libraries
+loops: libclassloops.a
+libclassloops.a: $(LOOP)
+	$(AR) -rc libclassloops.a $(LOOP)
+recursives: libclassrec.a
+libclassrec.a: $(RECURSIVE)
+	$(AR) -rc libclassrec.a $(RECURSIVE)
+#Creating Dynamic Libraries
+loopd:libclassloops.so
+libclassloops.so: $(LOOP)
+	$(CC) $(FLAGS) -shared -o libclassloops.so $(LOOP)
+recursived: libclassrec.so
+libclassrec.so: $(RECURSIVE)
+	$(CC) $(FLAGS) -shared -o libclassrec.so $(RECURSIVE)
+#Crating Objects
 main.o: main.c NumClass.h
-	$(CC) $(CFLAGS) main.c -c
-
+	$(CC) $(FLAGS) -c main.c
 basicClassification.o: basicClassification.c NumClass.h
-	$(CC) $(CFLAGS)  -fPIC basicClassification.c -c 
-
+	$(CC) $(FLAGS) -c -fPIC basicClassification.c -lm
 advancedClassificationLoop.o: advancedClassificationLoop.c NumClass.h
-	$(CC) $(CFLAGS)  -fPIC advancedClassificationLoop.c -c
-
+	$(CC) $(FLAGS) -c -fPIC advancedClassificationLoop.c -lm
 advancedClassificationRecursion.o: advancedClassificationRecursion.c NumClass.h
-	$(CC) $(CFLAGS)  -fPIC advancedClassificationRecursion.c -c
-
-.PHONY: clean loops loopd reccursived reccursives
+	$(CC) $(FLAGS) -c -fPIC advancedClassificationRecursion.c -lm
 
 clean:
-	rm -f *.o *.a *so mains maindloop maindrec
+	rm -f *.o *.a *.so mains maindloop maindrec
