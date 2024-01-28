@@ -1,1 +1,1 @@
-This is the first assignment in C programing
+# 1st assginment in c - System Programming
