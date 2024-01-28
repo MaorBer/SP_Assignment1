@@ -1,46 +1,34 @@
-#include <stdio.h>
 #include <math.h>
-#include <stdlib.h>
 #include "NumClass.h"
-#define NumOfDigits(a) floor(log10(a)) + 1
+#include <stdbool.h>
+int reverseNum(int);
+int createArmstrong(int, int);
 
-int isArmstrongRec(int x, int nDigits)
-{
-    if (x > 0)
-    {
-        return (pow((x % 10), nDigits) + isArmstrongRec((x / 10), nDigits));
-    }
-    return 0;
+int isPalindrome(int num) {
+    if (num < 0)
+        return false;
+    if (num == reverseNum(num))
+        return true;
+    return false;
 }
 
-int isArmstrong(int y)
-{
-    int Yarm = isArmstrongRec(y, NumOfDigits(y));
-    if (y == Yarm)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-int reverse(int num)
-{ // get the reverse number
-    int digit = log10(num);
+int reverseNum (int num) {
     if (num == 0)
-    {
-        return 0;
-    }
-    return (int)((num % 10 * pow(10, digit)) + reverse(num / 10));
+        return false;
+    int numLength = (int) log10(num);
+    return (int) ((num % 10) * pow(10, numLength)) + reverseNum(num / 10);
 }
 
-int isPalindrome(int num)
-{ // if it is palindrome return 1, else return 0
-    if (num == reverse(num))
-    {
-        return 1;
-    }
-    return 0;
+int isArmstrong (int num) {
+    if (num < 0)
+        return false;
+    if (num == createArmstrong(num, (int) log10(num) + 1))
+        return true;
+    return false;
+}
+
+int createArmstrong (int num, int numLength) {
+    if (num == 0)
+        return false;
+    return (int) pow(num % 10, numLength) + createArmstrong(num / 10, numLength);
 }
