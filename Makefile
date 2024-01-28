@@ -24,7 +24,7 @@ libclassloops.a: $(OBJECTS_LOOP_BASIC)
 	$(AR) -rcs libclassloops.a $(OBJECTS_LOOP_BASIC)
 
 libclassloops.so: $(OBJECTS_LOOP_BASIC)
-	$(CC) -shared $(OBJECTS_LOOP_BASIC) -o libclssloops.so 
+	$(CC) -shared $(OBJECTS_LOOP_BASIC) -o libclassloops.so
 
 libclassrec.a: $(OBJECTS_RECURSIVE_BASIC)
 	$(AR) -rcs libclassrec.a $(OBJECTS_RECURSIVE_BASIC)
